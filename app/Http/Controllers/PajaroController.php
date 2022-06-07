@@ -14,7 +14,8 @@ class PajaroController extends Controller
      */
     public function index()
     {
-        //
+        $pajaros = Pajaro::all();
+        return view('pajaros.index', compact('pajaros'));
     }
 
     /**

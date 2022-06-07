@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CriadorController;
+use App\Http\Controllers\PajaroController;
+use App\Http\Controllers\ParejaController;
+use App\Http\Controllers\PuestaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +30,17 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::resource('/criadors',CriadorController::class);
+});
+Route::middleware('auth')->group(function () {
+    Route::resource('/pajaros',PajaroController::class);
+});
+Route::middleware('auth')->group(function () {
+    Route::resource('/parejas',ParejaController::class);
+});
+Route::middleware('auth')->group(function () {
+    Route::resource('/puestas',PuestaController::class);
 });

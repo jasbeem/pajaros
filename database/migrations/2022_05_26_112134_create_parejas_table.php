@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('parejas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('padre_id')->constrained('pajaros');
+            $table->foreignId('madre_id')->constrained('pajaros');
+            $table->string('jaula',200)->nullable();
+            $table->date('fecha_union');
             $table->timestamps();
         });
     }

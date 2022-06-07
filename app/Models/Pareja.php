@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Pareja extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'madre_id',
+        'padre_id',
+        'jaula',
+        'fecha_union'
+    ];
 }

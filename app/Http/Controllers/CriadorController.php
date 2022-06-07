@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Criador;
+use App\Http\Requests\CriadorStoreRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CriadorController extends Controller
 {
@@ -14,7 +16,8 @@ class CriadorController extends Controller
      */
     public function index()
     {
-        //
+        $criadors = Criador::all();
+        return view('criadors.index', compact('criadors'));
     }
 
     /**
@@ -24,7 +27,8 @@ class CriadorController extends Controller
      */
     public function create()
     {
-        //
+        $criador = new Criador();
+        return view('criadors.create', compact('criador'));
     }
 
     /**
@@ -33,9 +37,17 @@ class CriadorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CriadorStoreRequest $request)
     {
-        //
+        $data = $request->all();
+
+        if ($request->has('foto_url')) {
+            $image_path = $request->file('foto_url')->store('medias');
+            $data['foto_url'] = $image_path;
+        }
+        Criador::create($data);
+
+        return redirect()->route('criadors.index')->with(['status' => 'Success', 'color' => 'green', 'message' => 'Product created successfully']);
     }
 
     /**
@@ -57,7 +69,7 @@ class CriadorController extends Controller
      */
     public function edit(Criador $criador)
     {
-        //
+        return view('criadors.create', compact('criador'));
     }
 
     /**
@@ -67,19 +79,38 @@ class CriadorController extends Controller
      * @param  \App\Models\Criador  $criador
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Criador $criador)
+    public function update(CriadorStoreRequest $request, Criador $criador)
     {
-        //
+        $data = $request->all();
+
+        if ($request->has('foto_url')) {
+            Storage::delete("$criador->foto_url");
+
+            $image_path = $request->file('foto_url')->store('medias');
+            $data['foto_url'] = $image_path;
+        }
+
+        $criador->fill($data);
+        $criador->save();
+
+        return redirect()->route('criadors.index')->with(['status' => 'Success', 'color' => 'green', 'message' => 'Breeder updated successfully']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Criador  $criador
+     * @param  \App\Models\Criador  $criadore
      * @return \Illuminate\Http\Response
      */
     public function destroy(Criador $criador)
     {
-        //
+        try {
+            $criador->delete();
+            $result = ['status' => 'success', 'color' => 'green', 'message' => 'Deleted successfully'];
+        } catch (\Exception $e) {
+            $result = ['status' => 'error', 'color' => 'red', 'message' => 'Product cannot be delete'];
+        }
+
+        return redirect()->route('criadors.index')->with($result);
     }
 }

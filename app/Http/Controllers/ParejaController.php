@@ -14,7 +14,8 @@ class ParejaController extends Controller
      */
     public function index()
     {
-        //
+        $parejas = Pareja::all();
+        return view('parejas.index', compact('parejas'));
     }
 
     /**

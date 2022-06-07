@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('criadors', function (Blueprint $table) {
             $table->id();
+            $table->string('identificacion',10)->nullable();
+            $table->string('nombre',250);
+            $table->string('foto_url',250)->nullable();
+            $table->string('correo_e',250)->nullable();
+            $table->string('telefono',20)->nullable();
+            $table->string('descripcion',250)->nullable();
             $table->timestamps();
         });
     }

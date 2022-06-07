@@ -117,5 +117,15 @@ return [
     'uploaded'             => 'Subir :attribute ha fallado.',
     'url'                  => ':Attribute debe ser una URL válida.',
     'uuid'                 => 'El campo :attribute debe ser un UUID válido.',
-    'custom'               => [],
+    'custom'               => [
+        'attribute-name' => [
+            'name' => 'nombre',
+            'email' => 'correo-e'
+        ],
+    ],
+    'attributes' => [
+        'name' => 'nombre',
+        'email' => 'correo-e',
+        'foto_url' => 'foto del criador'
+    ],
 ];

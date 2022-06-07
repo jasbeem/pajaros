@@ -14,7 +14,8 @@ class PuestaController extends Controller
      */
     public function index()
     {
-        //
+        $puestas = Puesta::all();
+        return view('puestas.index', compact('puestas'));
     }
 
     /**
